@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mirror_app/utils/routes.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -9,7 +10,25 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
+  void initState() {
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
+        Navigator.pushNamed(context, Routes.bottomnavigation);
+      },
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: Center(
+        child: Image(
+          image: AssetImage('assets/images/splash.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 }
