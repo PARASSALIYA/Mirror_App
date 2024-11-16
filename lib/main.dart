@@ -9,18 +9,40 @@ void main() {
   );
 }
 
-class Mirror_App extends StatelessWidget {
+class Mirror_App extends StatefulWidget {
   const Mirror_App({super.key});
+
+  @override
+  State<Mirror_App> createState() => _Mirror_AppState();
+}
+
+class _Mirror_AppState extends State<Mirror_App> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider.value(
+          value: HomeProvider()..checkTheme(),
+        ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        routes: Routes.routes,
+      child: Consumer<HomeProvider>(
+        builder: (context, value, child) {
+          return MaterialApp(
+            theme: (value.isTheme) ? ThemeData.dark() : ThemeData.light(),
+            themeMode: (value.isTheme)
+                ? ThemeMode.dark
+                : value.isTheme
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+            debugShowCheckedModeBanner: false,
+            routes: Routes.routes,
+          );
+        },
       ),
     );
   }
