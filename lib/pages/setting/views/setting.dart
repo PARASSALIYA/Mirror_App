@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mirror_app/main.dart';
 import 'package:mirror_app/pages/home/provider/home_provider.dart';
+import 'package:mirror_app/utils/routes.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
@@ -28,6 +28,13 @@ class _SettingPageState extends State<SettingPage> {
                 context.read<HomeProvider>().themeChange(value);
               },
             ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, Routes.bookmarkpage);
+            },
+            title: const Text('BookMark'),
+            leading: const Icon(Icons.bookmark),
           ),
         ],
       ),

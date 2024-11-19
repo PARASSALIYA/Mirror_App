@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mirror_app/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +16,23 @@ class _HomePageState extends State<HomePage> {
   late HomeProvider homeProviderW;
   late HomeProvider homeProviderR;
   InAppWebViewController? webController;
+  PullToRefreshController? pullToRefreshController;
 
   @override
   void initState() {
     context.read<HomeProvider>().checkConnection();
+    context.read<HomeProvider>().checkIndex();
+    pullToRefreshController = kIsWeb
+        ? null
+        : PullToRefreshController(
+            onRefresh: () {
+              if (defaultTargetPlatform == TargetPlatform.android) {
+                context.watch<HomeProvider>().webController!.reload();
+              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+                context.watch<HomeProvider>().webController!.reload();
+              }
+            },
+          );
     super.initState();
   }
 
@@ -73,6 +87,8 @@ class _HomePageState extends State<HomePage> {
                                               WebUri("https://www.google.com/"),
                                         ),
                                       );
+                                      String url = "https://www.google.com/";
+                                      homeProviderR.selectIndex(url);
                                       selectedIndex = val;
                                       Navigator.pop(context);
                                     },
@@ -87,6 +103,8 @@ class _HomePageState extends State<HomePage> {
                                           url: WebUri("https://www.bing.com/"),
                                         ),
                                       );
+                                      String url = "https://www.bing.com/";
+                                      homeProviderR.selectIndex(url);
                                       selectedIndex = val;
                                       Navigator.pop(context);
                                     },
@@ -101,7 +119,10 @@ class _HomePageState extends State<HomePage> {
                                           url: WebUri("https://www.yahoo.com/"),
                                         ),
                                       );
+                                      String url = "https://www.yahoo.com/";
+                                      homeProviderR.selectIndex(url);
                                       selectedIndex = val;
+                                      url = "https://www.yahoo.com/";
                                       Navigator.pop(context);
                                     },
                                     child: const Text("Yahoo"),
@@ -116,6 +137,8 @@ class _HomePageState extends State<HomePage> {
                                               WebUri("https://duckduckgo.com/"),
                                         ),
                                       );
+                                      String? url = "https://duckduckgo.com/";
+                                      homeProviderR.selectIndex(url);
                                       selectedIndex = val;
                                       Navigator.pop(context);
                                     },
@@ -132,6 +155,8 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       );
                                       selectedIndex = val;
+                                      String url = "https://brave.com/en-in/";
+                                      homeProviderR.selectIndex(url);
                                       Navigator.pop(context);
                                     },
                                     child: const Text("Brave"),
@@ -197,20 +222,21 @@ class _HomePageState extends State<HomePage> {
                   child: InAppWebView(
                     initialUrlRequest: URLRequest(
                       url: WebUri(
-                        "${homeProviderW.webController == null ? "https://www.google.com/" : homeProviderW.webController?.getUrl()}",
+                        "${homeProviderW.webController == null ? homeProviderW.url : homeProviderW.webController?.getUrl()}",
                       ),
                     ),
                     onProgressChanged: (controller, progress) {
                       homeProviderR.isProcess(progress / 100);
+
+                      pullToRefreshController!.endRefreshing();
                     },
                     onWebViewCreated: (controller) {
                       homeProviderW.webController = controller;
                     },
-                    pullToRefreshController: PullToRefreshController(
-                      onRefresh: () {
-                        webController?.reload();
-                      },
-                    ),
+                    pullToRefreshController: pullToRefreshController,
+                    onLoadStop: (controller, url) {
+                      pullToRefreshController!.endRefreshing();
+                    },
                   ),
                 ),
               ],

@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirror_app/pages/home/helper/helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class HomeProvider with ChangeNotifier {
   var connectivity = Connectivity();
   double progress = 0;
   int currentIndex = 0;
-  InAppWebViewController? webController;
   String? url;
-  bool isTheme = false;
+  InAppWebViewController? webController;
 
+  bool isTheme = false;
   bool isConnect = false;
+
   void checkConnection() async {
     StreamSubscription<List<ConnectivityResult>> results =
         (await Connectivity().onConnectivityChanged.listen(
@@ -44,9 +44,33 @@ class HomeProvider with ChangeNotifier {
     isTheme = theme!;
     notifyListeners();
   }
+  //
+  // void bookMark(String name) async {
+  //   await ShrHelper.shrHelper.setBookMark(name);
+  //   notifyListeners();
+  // }
 
-  void bookMark(String name) {
-    List<String> bookMarkName = ShrHelper.shrHelper.bookMark;
+  // void removeBookMark(String name) async {
+  //   await ShrHelper.shrHelper.removeBookMark(name);
+  //   notifyListeners();
+  // }
+
+  // void selectIndex(InAppWebViewController val) {
+  //   ShrHelper.shrHelper.setIndex(val);
+  //   notifyListeners();
+  // }
+  //
+  // void checkIndex() {
+  //   ShrHelper.shrHelper.getIndex();
+  //   notifyListeners();
+  // }
+  void selectIndex(String val) {
+    ShrHelper.shrHelper.setIndex(val);
+    notifyListeners();
+  }
+
+  Future<void> checkIndex() async {
+   url = await ShrHelper.shrHelper.getIndex();
     notifyListeners();
   }
 }
