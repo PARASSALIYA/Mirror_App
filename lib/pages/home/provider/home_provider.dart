@@ -72,26 +72,6 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //
-  // void bookMark(String name) async {
-  //   await ShrHelper.shrHelper.setBookMark(name);
-  //   notifyListeners();
-  // }
-
-  // void removeBookMark(String name) async {
-  //   await ShrHelper.shrHelper.removeBookMark(name);
-  //   notifyListeners();
-  // }
-
-  // void selectIndex(InAppWebViewController val) {
-  //   ShrHelper.shrHelper.setIndex(val);
-  //   notifyListeners();
-  // }
-  //
-  // void checkIndex() {
-  //   ShrHelper.shrHelper.getIndex();
-  //   notifyListeners();
-  // }
   void selectIndex(String val) {
     ShrHelper.shrHelper.setIndex(val);
     notifyListeners();

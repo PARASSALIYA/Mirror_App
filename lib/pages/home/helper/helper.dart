@@ -5,14 +5,6 @@ class ShrHelper {
   List<String> bookMark = [];
   List<String> searchHistory = [];
   String? selectedIndex;
-
-  // void setIndex(InAppWebViewController webView) async {
-  //   SharedPreferences shr = await SharedPreferences.getInstance();
-  //   shr.setString(
-  //     "index",
-  //     webView.toString(),
-  //   );
-  // }
   Future<void> saveSearchHistory(List<String> history) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList("searchHistory", history);
@@ -28,10 +20,6 @@ class ShrHelper {
     await shr.setStringList("searchHistory", searchHistory);
   }
 
-  // Future<void> saveSearchHistory(List<String> history) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.setStringList(_searchHistoryKey, history);
-  // }
   Future<List<String>?> getSearch() async {
     SharedPreferences shr = await SharedPreferences.getInstance();
     return shr.getStringList("searchHistory") ?? [];
@@ -49,18 +37,6 @@ class ShrHelper {
     SharedPreferences shr = await SharedPreferences.getInstance();
     String? index = shr.getString("index");
     return index;
-  }
-
-  Future<void> setBookMark(String name) async {
-    SharedPreferences shr = await SharedPreferences.getInstance();
-    bookMark.add(name);
-    shr.setStringList("bookMark", bookMark);
-  }
-
-  void removeBookMark(String name) async {
-    SharedPreferences shr = await SharedPreferences.getInstance();
-    bookMark.remove(name);
-    shr.getStringList("bookMark");
   }
 
   Future<void> setTheme(bool theme) async {
