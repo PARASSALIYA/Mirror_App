@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mirror_app/utils/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
+import 'package:mirror_app/utils/routes.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirror_app/pages/home/provider/home_provider.dart';
 
@@ -168,7 +168,11 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     }
+
                     if (val == 1) {
+                      Navigator.pushNamed(context, Routes.searchhistory);
+                    }
+                    if (val == 2) {
                       Navigator.pushNamed(context, Routes.settingpage);
                     }
                   },
@@ -180,6 +184,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const PopupMenuItem(
                         value: 1,
+                        child: Text("Search History"),
+                      ),
+                      const PopupMenuItem(
+                        value: 2,
                         child: Text("Setting"),
                       ),
                     ];
@@ -196,26 +204,39 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    onSubmitted: (val) {
-                      var url = WebUri(val);
-                      context.read<HomeProvider>().webController?.loadUrl(
-                            urlRequest: URLRequest(
-                              url: WebUri(
-                                  "https://www.google.com/search?q=$val"),
-                            ),
-                          );
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.link_sharp),
-                      hintText: 'Search',
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  child: Column(
+                    children: [
+                      TextField(
+                        onSubmitted: (val) {
+                          var url = WebUri(val);
+                          context.read<HomeProvider>().webController?.loadUrl(
+                                urlRequest: URLRequest(
+                                  url: WebUri(
+                                      "https://www.google.com/search?q=$val"),
+                                ),
+                              );
+
+                          homeProviderR.setSearch(val);
+                        },
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.link_sharp),
+                          hintText: 'Search',
+                          hintStyle: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                        ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                    ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -242,10 +263,7 @@ class _HomePageState extends State<HomePage> {
               ],
             )
           : const Center(
-              child: Icon(
-                Icons.wifi_off_outlined,
-                size: 50,
-              ),
+              child: Icon(Icons.wifi_off, size: 100),
             ),
     );
   }

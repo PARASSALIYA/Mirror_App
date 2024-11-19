@@ -14,6 +14,33 @@ class HomeProvider with ChangeNotifier {
   bool isTheme = false;
   bool isConnect = false;
 
+  List<String> searchHistory = [];
+  List<String> get getSearchHistory => searchHistory;
+
+  Future<void> setSearch(String term) async {
+    if (term.isNotEmpty && !searchHistory.contains(term)) {
+      searchHistory.insert(0, term); // Add the new term at the top
+      await ShrHelper.shrHelper.saveSearchHistory(searchHistory);
+      notifyListeners();
+    }
+  }
+
+  Future<void> removeSearch(String term) async {
+    searchHistory.remove(term);
+    await ShrHelper.shrHelper.saveSearchHistory(searchHistory);
+    notifyListeners();
+  }
+
+  void getSearch() async {
+    searchHistory = await ShrHelper.shrHelper.getSearchHistory();
+    notifyListeners();
+  }
+
+  void getHistory() {
+    getSearch();
+    notifyListeners();
+  }
+
   void checkConnection() async {
     StreamSubscription<List<ConnectivityResult>> results =
         (await Connectivity().onConnectivityChanged.listen(
@@ -44,6 +71,7 @@ class HomeProvider with ChangeNotifier {
     isTheme = theme!;
     notifyListeners();
   }
+
   //
   // void bookMark(String name) async {
   //   await ShrHelper.shrHelper.setBookMark(name);
@@ -70,7 +98,7 @@ class HomeProvider with ChangeNotifier {
   }
 
   Future<void> checkIndex() async {
-   url = await ShrHelper.shrHelper.getIndex();
+    url = await ShrHelper.shrHelper.getIndex();
     notifyListeners();
   }
 }
