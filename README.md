@@ -1,16 +1,30 @@
-# mirror_app
 
-A new Flutter project.
+#  Mirror Wall App 
 
-## Getting Started
+Mirror Wall App is a dynamic Flutter application designed to provide users with a seamless and customizable web browsing experience. The app offers essential features like search engine selection, theme customization, search history management, and bookmarking, ensuring ease of use and personalization.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features 🚀
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 1. **Search Engine Integration**  
+   - Users can browse the web with multiple search engine options.
+   - Easily switch between preferred search engines.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 2. **Theme Customization**  
+   - Choose between light and dark themes for a personalized experience.
+   - Theme preferences are saved locally.
+
+### 3. **Search History Management**  
+   - View a list of past searches.
+   - Delete individual search history items or clear all history.
+
+### 4. **Web Bookmarking**  
+   - Bookmark favorite websites for easy access.
+   - All bookmarks are stored locally for quick retrieval.
+
+### 5. **Local Storage**  
+   - The app uses **SharedPreferences** to store user settings like:
+     - Selected theme.
+     - Search engine preferences.
+     - Search history.
+     - Bookmarked websites.
