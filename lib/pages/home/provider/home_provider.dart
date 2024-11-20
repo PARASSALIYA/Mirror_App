@@ -8,12 +8,11 @@ class HomeProvider with ChangeNotifier {
   var connectivity = Connectivity();
   double progress = 0;
   int currentIndex = 0;
-  String? url;
+  String url = 'https://www.google.com';
   InAppWebViewController? webController;
-
   bool isTheme = false;
   bool isConnect = false;
-
+  List<String> bookmark = [];
   List<String> searchHistory = [];
   List<String> get getSearchHistory => searchHistory;
 
@@ -77,8 +76,26 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void getIndex() {
+    checkIndex();
+  }
+
   Future<void> checkIndex() async {
-    url = await ShrHelper.shrHelper.getIndex();
+    url = (await ShrHelper.shrHelper.getIndex())!;
+    notifyListeners();
+  }
+
+  Future<void> setBookMark(String term) async {
+    if (term.isNotEmpty && !searchHistory.contains(term)) {
+      bookmark.insert(0, term); // Add the new term at the top
+      await ShrHelper.shrHelper.setBookmark(bookmark);
+      notifyListeners();
+    }
+  }
+
+  Future<void> getBookMark(List<String> term) async {
+    bookmark.remove(term);
+    await ShrHelper.shrHelper.setBookmark(bookmark);
     notifyListeners();
   }
 }

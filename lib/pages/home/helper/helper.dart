@@ -49,4 +49,14 @@ class ShrHelper {
     bool? theme = shr.getBool("theme");
     return theme;
   }
+
+  Future<void> setBookmark(List<String> url) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bookmarks = await getBookmark();
+  }
+
+  Future<List<String>> getBookmark() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList("bookmark") ?? [];
+  }
 }

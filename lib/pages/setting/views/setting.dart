@@ -29,13 +29,7 @@ class _SettingPageState extends State<SettingPage> {
               },
             ),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.pushNamed(context, Routes.bookmarkpage);
-            },
-            title: const Text('BookMark'),
-            leading: const Icon(Icons.bookmark),
-          ),
+
         ],
       ),
     );

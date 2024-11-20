@@ -28,9 +28,10 @@ class _HomePageState extends State<HomePage> {
             onRefresh: () {
               if (defaultTargetPlatform == TargetPlatform.android) {
                 context.watch<HomeProvider>().webController!.reload();
-              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-                context.watch<HomeProvider>().webController!.reload();
               }
+              // else if (defaultTargetPlatform == TargetPlatform.iOS) {
+              //   context.watch<HomeProvider>().webController!.reload();
+              // }
             },
           );
     super.initState();
@@ -172,6 +173,7 @@ class _HomePageState extends State<HomePage> {
                     if (val == 1) {
                       Navigator.pushNamed(context, Routes.searchhistory);
                     }
+
                     if (val == 2) {
                       Navigator.pushNamed(context, Routes.settingpage);
                     }
@@ -217,6 +219,7 @@ class _HomePageState extends State<HomePage> {
                               );
 
                           homeProviderR.setSearch(val);
+                          homeProviderR.setBookMark(val);
                         },
                         style: const TextStyle(
                           color: Colors.black,
@@ -249,7 +252,9 @@ class _HomePageState extends State<HomePage> {
                     onProgressChanged: (controller, progress) {
                       homeProviderR.isProcess(progress / 100);
 
-                      pullToRefreshController!.endRefreshing();
+                      if (progress == 100) {
+                        pullToRefreshController!.endRefreshing();
+                      }
                     },
                     onWebViewCreated: (controller) {
                       homeProviderW.webController = controller;

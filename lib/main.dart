@@ -29,7 +29,8 @@ class _Mirror_AppState extends State<Mirror_App> {
         ChangeNotifierProvider.value(
           value: HomeProvider()
             ..checkTheme()
-            ..getHistory(),
+            ..getHistory()
+            ..getIndex(),
         ),
       ],
       child: Consumer<HomeProvider>(
