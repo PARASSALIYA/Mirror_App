@@ -35,7 +35,9 @@ Mirror Wall App is a dynamic Flutter application designed to provide users with 
 OUTPUT :
 
 
-https://github.com/user-attachments/assets/2d0aca1c-6053-4b82-a154-03124886257c
+
+https://github.com/user-attachments/assets/f1ea8922-efb1-4ddf-948a-bbb9f26246ec
+
 
 
 
